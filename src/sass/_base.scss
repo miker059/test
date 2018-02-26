@@ -1,0 +1,19 @@
+body{
+
+}
+
+.container{
+    max-width: $respons-xs;
+    margin: 0 auto;
+    padding: 0 15px;
+    @media (min-width: $respons-md) {
+        width: $respons-md;
+        max-width: 100%;
+    }
+    @media (min-width: $respons-lg) {
+        width: $respons-lg;
+    }
+    @media (min-width: $respons-xl) {
+        width: $respons-xl;
+    }
+}
