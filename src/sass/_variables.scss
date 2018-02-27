@@ -7,10 +7,15 @@ $respons-xl: 1200px;
 
 //Colors
 $gray: #ccc;
-$light_gray: #f5f5f5;
+$light-gray: #f5f5f5;
+$blue: #035999;
+
+//brand
+$default: rgba(0,0,0,0);
+$primary: $blue;
 
 // Header
-$header_bg: $light_gray;
+$header-bg: $light-gray;
 
 //Calendar
 $table_border: $gray;

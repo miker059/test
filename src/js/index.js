@@ -2,7 +2,7 @@ import './../sass/styles.scss'
 import Calendar from './libs/calendar.class'
 
 const Cal = new Calendar({
-    el:'.calendar__table'
+    el:'calendar'
 })
 
-Cal.drawCalendar()
+Cal.draw()

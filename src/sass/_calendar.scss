@@ -19,10 +19,25 @@
                 &.active{
                     background-color: darken($light_gray, 5%);
                 }
-                &:hover{
+                &:hover:not(.table__cell_empty){
                     background-color: $light_gray;
                 }
+                &_empty{
+                    background-color: lighten($gray, 5%);
+                    cursor: default;
+                }
             }
+        }
+    }
+    &__controls{
+        margin-bottom: 20px;
+        *{
+            display: inline-block;
+            margin-right: 10px;
+        }
+        span{
+            min-width: 130px;
+            text-align: center;
         }
     }
 }
