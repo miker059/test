@@ -9,7 +9,6 @@ class Calendar {
             month: this.currentDate.getMonth(),
             year: this.currentDate.getFullYear()
         }, config)
-        localStorage()
         if(document.getElementById(this.config.el).length === 0) {
             let el = document.createElement('div')
             el.setAttribute('id', this.config.el)
