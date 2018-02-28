@@ -1,14 +1,20 @@
 export default {
     windowW: window.outerWidth,
     windowH: window.outerHeight,
+    /***
+     * Формирование попапа
+     * @param el
+     * @param innerHtml
+     */
     showPopup(el, innerHtml){
-        el = el.parentElement
         this.removePopup()
+        el.classList.add('select')
+        el = el.parentElement
         this.elT = el.offsetTop
         this.elL = el.offsetLeft
         this.elW = el.offsetWidth
         this.elH = el.offsetHeight
-        let parentEl = this. getParent(el)
+        let parentEl = this.getParent(el)
         this.prW = parentEl.offsetWidth
         this.prH = parentEl.offsetHeight
         let popup = document.createElement('div')
@@ -24,17 +30,9 @@ export default {
         popup.innerHTML = innerHtml
         popup.appendChild(arrow)
         parentEl.appendChild(popup)
-        document.querySelector('#submit').addEventListener('click', () => {
-            return {
-                day: el.getAttribute('data-day'),
-                month: el.getAttribute('data-month'),
-                year: el.getAttribute('data-year'),
-                name: document.getElementById('popupName').value,
-                participants: document.getElementById('popupParticipants').value,
-                description: document.getElementById('popupDescription').value
-            }
-        })
         document.querySelector('#cancel').addEventListener('click', this.removePopup)
+        document.querySelector('#popupName')
+            .addEventListener('keyup', (event) => event.target.classList.remove('error'))
     },
     getParent(el){
         let pos = ''
@@ -69,7 +67,10 @@ export default {
         return pos
     },
     removePopup(){
-        let els = document.querySelectorAll('.popup')
-        els.forEach((item) => item.parentElement.removeChild(item))
+        let popup = document.querySelectorAll('.popup')
+        let el = document.querySelector('span.select')
+        popup.forEach((item) => item.parentElement.removeChild(item))
+        if (el) el.classList.remove('select')
+
     }
 }

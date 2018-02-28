@@ -28,4 +28,7 @@
         padding: 3px 6px;
         font-size: .7em;
     }
+    &:disabled{
+        cursor: not-allowed;
+    }
 }

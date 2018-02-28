@@ -9,7 +9,6 @@ export default {
         let arrRec = []
         let count = localStorage.length
         let reg = new RegExp('date:\\d{8}')
-        console.log(reg)
         if(count > 0) {
             for (let i = 0; i < count; i++){
                 if(reg.test(localStorage.key(i))) arrRec.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
@@ -24,6 +23,11 @@ export default {
         if(this.isEmpty(obj)) return false
         let key = 'date:'+(String(obj.day).length === 1 ? '0' + obj.day: obj.day) + (String(obj.month).length === 1 ? '0' + obj.month: obj.month) + obj.year
         localStorage.setItem(key, JSON.stringify(obj))
+    },
+    removeObject(obj = {}){
+        if(this.isEmpty(obj)) return false
+        let key = 'date:'+(String(obj.day).length === 1 ? '0' + obj.day: obj.day) + (String(obj.month).length === 1 ? '0' + obj.month: obj.month) + obj.year
+        localStorage.removeItem(key)
     },
     isEmpty(obj) {
         for (let key in obj) {

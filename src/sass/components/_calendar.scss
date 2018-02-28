@@ -18,6 +18,7 @@
                 cursor: pointer;
                 transition: all .3s;
                 position: relative;
+                overflow: hidden;
                 p{
                     margin-bottom: 10px;
                 }
@@ -27,6 +28,9 @@
                     right: 0;
                     top: 0;
                     bottom: 0;
+                    &.select{
+                        border: 2px solid $primary;
+                    }
                 }
                 &.active{
                     background-color: darken($light_gray, 5%);

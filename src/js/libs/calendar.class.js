@@ -1,7 +1,4 @@
 import data from './data'
-import LocalStorage from './localstorage'
-import Popup from './popup'
-import { popupForm } from './forms'
 
 /***
  * Класс календаря
@@ -9,8 +6,8 @@ import { popupForm } from './forms'
 class Calendar {
     constructor(config){
         this.data = data;
-        this.records = LocalStorage.getObjects();
         this.currentDate = new Date();
+        this.records = []
         this.config = Object.assign({
             el: 'calendar',
             month: this.currentDate.getMonth(),
@@ -34,10 +31,11 @@ class Calendar {
     /***
      * Отрисовка всех элементов на страницу
      */
-    draw(){
+    draw(store, callback){
+        this.records = store ? store : this.records;
         this.drawControls();
         this.drawCalendar();
-        this.addElEvents()
+        if (callback) callback()
     }
 
     /***
@@ -50,11 +48,10 @@ class Calendar {
         let rows = 0;
         let cellClass = '';
         let table = '<div class="table"><div class="table__row">';
-
+        let dayNames = window.outerWidth > 768 ? this.data.daysName : this.data.daysNameSm
         for (let i = 0; i < Calendar.weekday(selDate); i++) {
-            table += `<div class="table__cell  table__cell_empty">${this.data.daysName[i]}</div>`
+            table += `<div class="table__cell  table__cell_empty">${dayNames[i]}</div>`
         }
-
         while (selDate.getMonth() === conf.month) {
             let event = {};
             if (selDate.getMonth() === this.currentDate.getMonth() && selDate.getDate() === this.currentDate.getDate()) cellClass = 'active';
@@ -73,7 +70,7 @@ class Calendar {
                     data-name="${event.name ? event.name : ''}"
                     data-participants="${event.participants ? event.participants : ''}"
                     data-desc="${event.description ? event.description : ''}">
-                    <p class="date">${rows === 0 ? this.data.daysName[Calendar.weekday(selDate) % 7]+', '+selDate.getDate(): selDate.getDate()}</p>
+                    <p class="date">${rows === 0 ? dayNames[Calendar.weekday(selDate) % 7]+', '+selDate.getDate(): selDate.getDate()}</p>
                     <p class="name"><b>${event.name ? (event.name.length > 13 ? event.name.substr(0, 13) + '...' : event.name) : ''}</b></p>
                     <p class="participants">${event.participants ? (event.participants.length > 30 ? event.participants.substr(0, 30) + '...' : event.participants) : ''}</p>
                     <span class="js-add-event"></span>
@@ -105,47 +102,32 @@ class Calendar {
     }
 
     /***
-     * навешивание событий на элементы
-     */
-    addElEvents(){
-        document.querySelector('.js-prev').addEventListener('click', () => this.prevMonth());
-        document.querySelector('.js-next').addEventListener('click', () => this.nextMonth());
-        document.querySelector('.js-today').addEventListener('click', () => this.toToday());
-        let addEventEls = document.querySelectorAll('.js-add-event');
-        addEventEls.forEach((item) => {
-            item.addEventListener('click', (event) => Calendar.addEvent(event.target))
-        })
-    }
-
-    /***
      * Методы событий
      */
-    prevMonth(){ // Месяц назад
+    prevMonth(callback){ // Месяц назад
         let conf = this.config;
         if(conf.month === 0) {
             conf.month = 11;
             conf.year--
         }else conf.month--;
         this.draw()
+        if (callback) callback()
     }
-    nextMonth(){ // Месяц вперед
+    nextMonth(callback){ // Месяц вперед
         let conf = this.config;
         if(conf.month === 11) {
             conf.month = 0;
             conf.year++
         }else conf.month++;
         this.draw()
+        if (callback) callback()
     }
-    toToday(){ // Текущий месяц
+    toToday(callback){ // Текущий месяц
         let conf = this.config;
         conf.month = this.currentDate.getMonth();
         conf.year = this.currentDate.getFullYear();
         this.draw()
-    }
-    static addEvent(el){ // Добавление или редоктирование события
-        let innerHtml = popupForm(el.parentElement);
-        let rec = Popup.showPopup(el, innerHtml)
-        console.log(rec)
+        if (callback) callback()
     }
 
     /***
