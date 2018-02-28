@@ -1,5 +1,14 @@
+/* basic */
 @import "reset";
 @import "variables";
-@import "base";
-@import "header";
-@import "calendar";
+
+/* components */
+@import "components/index";
+
+/* plugins */
+@import "plugins/calendar";
+
+/* blocks */
+@import "blocks/base";
+@import "blocks/header";
+
